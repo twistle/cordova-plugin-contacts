@@ -279,20 +279,31 @@ public class ContactAccessorSdk5 extends ContactAccessor {
      * @return     a JSONObject representing the contact
      * @throws JSONException
      */
-    public JSONObject getContactById(String id) throws JSONException {
+    public JSONObject getContactByRawId(String id) throws JSONException {
         // Call overloaded version with no desiredFields 
-        return getContactById(id, null); 
+        return getContactById(id, null, false); 
+    }
+    
+    
+    @Override
+    public JSONObject getContactByRawId(String id, JSONArray desiredFields) throws JSONException {	
+    	return getContactById(id, desiredFields, false); 
     }
     
     @Override
-    public JSONObject getContactById(String id, JSONArray desiredFields) throws JSONException {
+    public JSONObject getContactByContactId(String id)throws JSONException {	
+    	return getContactById(id, null, true); 
+    }
+    
+    
+    public JSONObject getContactById(String id, JSONArray desiredFields, boolean fromPicker) throws JSONException {	
         // Do the id query
         Cursor c = mApp.getActivity().getContentResolver().query(
                 ContactsContract.Data.CONTENT_URI,
                 null,
-                ContactsContract.Data.RAW_CONTACT_ID + " = ? ",
+                (fromPicker ? ContactsContract.Data.CONTACT_ID : ContactsContract.Data.RAW_CONTACT_ID) + " = ? ",
                 new String[] { id },
-                ContactsContract.Data.RAW_CONTACT_ID + " ASC");
+                (fromPicker ? ContactsContract.Data.CONTACT_ID : ContactsContract.Data.RAW_CONTACT_ID) + " ASC");
 
         HashMap<String, Boolean> populate = buildPopulationSet(
                 new JSONObject().put("desiredFields", desiredFields)

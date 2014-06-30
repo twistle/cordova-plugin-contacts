@@ -153,17 +153,24 @@ public abstract class ContactAccessor {
     public abstract JSONArray search(JSONArray filter, JSONObject options);
 
     /**
-     * Handles searching through SDK-specific contacts API.
+     * Handles searching through SDK-specific contacts API using a raw contact id.
      * @throws JSONException
      */
-    public abstract JSONObject getContactById(String id) throws JSONException;
+    public abstract JSONObject getContactByRawId(String id) throws JSONException;
     
     /**
-     * Handles searching through SDK-specific contacts API.
+     * Handles searching through SDK-specific contacts API using a contact id (e.g. returned from picker).
+     * @throws JSONException
+     */
+    public abstract JSONObject getContactByContactId(String id) throws JSONException;
+   
+    
+    /**
+     * Handles searching through SDK-specific contacts API using a raw contact id.
      * @param desiredFields fields that will filled. All fields will be filled if null 
      * @throws JSONException
      */
-    public abstract JSONObject getContactById(String id, JSONArray desiredFields) throws JSONException;
+    public abstract JSONObject getContactByRawId(String id, JSONArray desiredFields) throws JSONException;
 
     /**
      * Handles removing a contact from the database.

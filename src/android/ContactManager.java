@@ -101,7 +101,7 @@ public class ContactManager extends CordovaPlugin {
                     String id = contactAccessor.save(contact);
                     if (id != null) {
                         try {
-                            res = contactAccessor.getContactById(id);
+                            res = contactAccessor.getContactByRawId(id);
                         } catch (JSONException e) {
                             Log.e(LOG_TAG, "JSON fail.", e);
                         }
@@ -162,7 +162,7 @@ public class ContactManager extends CordovaPlugin {
             if (resultCode == Activity.RESULT_OK) {
                 String contactId = intent.getData().getLastPathSegment();
                 try {
-                    JSONObject contact = contactAccessor.getContactById(contactId);
+                    JSONObject contact = contactAccessor.getContactByContactId(contactId);
                     this.callbackContext.success(contact);
                     return;
                 } catch (JSONException e) {
